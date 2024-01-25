@@ -16,11 +16,12 @@ include_once 'funcs/funcs.php';
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-100" data-bs-theme="auto">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="MRoblesDev">
     <title>Captcha</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
@@ -32,7 +33,7 @@ include_once 'funcs/funcs.php';
     </style>
 </head>
 
-<body>
+<body class="d-flex flex-column h-100">
 
     <main class="form">
         <h2>Formulario de Verificación</h2>
@@ -74,24 +75,41 @@ include_once 'funcs/funcs.php';
         </form>
     </main>
 
+    <footer class="footer mt-auto py-3 bg-body-tertiary">
+        <div class="container text-center">
+            <span class="text-body-secondary">
+                Desarrollador por <a href="https://github.com/mroblesdev/generador-captcha-php">MRoblesDev</a>
+            </span>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
     <script>
-        const imgCodigo = document.getElementById('img-codigo')
-        const btnGenera = document.getElementById('regenera')
-        btnGenera.addEventListener('click', generaCodigo, false)
+        document.addEventListener('DOMContentLoaded', () => {
+            const imgCodigo = document.getElementById('img-codigo');
+            const btnGenera = document.getElementById('regenera');
 
-        function generaCodigo() {
-            let url = 'funcs/genera_codigo.php'
+            if (imgCodigo && btnGenera) {
+                btnGenera.addEventListener('click', generaCodigo);
+            }
 
-            fetch(url)
-                .then(response => response.blob())
-                .then(data => {
-                    if (data) {
-                        imgCodigo.src = URL.createObjectURL(data)
-                    }
-                })
-        }
+            /**
+             * Función que realiza una solicitud fetch para obtener una imagen generada.
+             * La imagen se asigna dinámicamente a la propiedad 'src' de la imagen en el documento.
+             */
+            function generaCodigo() {
+                let url = 'funcs/genera_codigo.php';
+
+                fetch(url)
+                    .then(response => response.blob())
+                    .then(data => {
+                        if (data) {
+                            imgCodigo.src = URL.createObjectURL(data);
+                        }
+                    });
+            }
+        });
     </script>
 
 </body>
